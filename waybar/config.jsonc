@@ -1,0 +1,118 @@
+{    
+  "height": 62,
+
+  "spacing": 4,
+
+  "layer": "top",
+  "position": "top",
+  "margin-top":0,
+
+  "modules-left": ["niri/workspaces", "wlr/taskbar"],
+  "modules-center": ["clock","custom/weather"],
+  "modules-right": ["tray","network","cpu","memory","battery"],
+
+  "clock": {
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt":"{:%Y-%m-%d}"
+  },
+
+  "niri/workspaces":{
+    "all-outputs":true,
+    "active-only":false,
+   /* "persistent-workspaces":{ 
+      "1":[], 
+      "2":[], 
+      "3":[], 
+      "4":[],
+      "5":[], 
+      "6":[], 
+      "7":[], 
+      "8":[], 
+      "9":[],
+      "10":[]
+    }, */
+    "disable-scroll":false,
+    "format":"{icon}",
+    "format-icons":{
+      "1":"",
+      "2":"󰈸",
+      "3":"",
+      "4":"󰈸",
+      "5":"",
+      "6":"󰈸",
+      "7":"",
+      "8":"󰈸",
+      "9":"",
+      "10":"󰈸"
+    }
+  },
+
+  "wlr/taskbar":{
+    "format": "{icon}",
+    "icon-size": 32,
+    "icon-theme":  [ "Vivid-Dark-Icons", "hicolor", "Adwaita" ],
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+
+  "tray":{
+    "format": "{icon}",
+    "icon-size": 32,
+    "icon-theme": [ "Vivid-Dark-Icons", "hicolor", "Adwaita" ],
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+
+
+  "network": {
+    "format":" 󰖩 ",
+    "format-disconnected":" 󰖪 ",
+    "tooltip-format-wifi": 
+    "{essid}\n{ifname}\n{bandwidthUpBits}/{bandwidthDownBits}"
+  },
+
+  "custom/weather": {
+    "exec": "$HOME/.config/waybar/scripts/weather.sh",
+   "interval": 600,
+    "return-type": "json",
+    "format":{},
+    "tooltip":true,
+    "on-click":"xdg-open 'https://wttr.in/Tucson'",
+    "on-click-right":"pkill -RTMN+10 waybar",
+    "escape":true
+  },
+
+  "memory": {
+    "format":"  ",
+    "tooltip-format":
+    "{used}GiB\n{avail}GiB\n{total}GiB\n{swapState}\n{swapUsed}GiB\n{swapAvail}GiB\n{swapTotal}GiB"
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format":"  ",
+    "max-length": 10,
+    "tooltip":"true",
+    "tooltip-format":
+    "{usage}\n{min_frequency}\n{max_frequency}\n{avg_frequency}"
+  },
+  
+"battery": {
+	//"bat": "BAT2",
+	"interval": 60,
+	"states": {
+		"warning": 30,
+		"critical": 15
+	},
+	"events": {
+		"on-discharging-warning": "notify-send -u normal 'Low Battery'",
+		"on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
+		"on-charging-100": "notify-send -u normal 'Battery Full!'"
+	},
+	"format": "{capacity}% {icon}",
+	"format-icons": ["", "", "", "", ""],
+	"max-length": 25
+}
+}

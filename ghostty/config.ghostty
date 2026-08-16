@@ -1,0 +1,16 @@
+theme = Ghostty Default Style Dark
+background-opacity = 0.96
+confirm-close-surface = false
+
+font-family = Terminess Nerd Font
+font-size = 14.75
+adjust-icon-height = +14
+
+keybind = ctrl+alt+shift+arrow_down=resize_split:down,10
+keybind = ctrl+alt+shift+arrow_up=resize_split:up,10
+keybind = ctrl+alt+shift+arrow_left=resize_split:left,10
+keybind = ctrl+alt+shift+arrow_right=resize_split:right,10
+keybind = ctrl+9=new_split:right
+keybind = ctrl+0=new_split:down
+
+

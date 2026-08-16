@@ -1,0 +1,97 @@
+{
+//#98FF98 crelly green  #FF4D4D crelly eye  #eedd67 crelly yellow \u001b[93m escape sequence for crelly tag 
+// Crelly is deprecated, color reference only kept for laziness
+// new palette is #DFEFF7 (frost) and #D63B18 (fire) Smugalana \u001b[38;2;214;59;24m
+// updated frost pallete #DFEFF7 and #424C80 and \u001b[38;2;66;76;128m \u001b[38;2;153;218;238m 
+
+  "$schema": "jttps://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": {
+    "type": "auto",
+    "source": "$HOME/Pictures/SmugAlana/*",
+    "width": 30,
+    "height": 15,
+    "padding": {
+      "top": 1,
+      "left": 1,
+      "right": 1,
+      "bottom": 1
+    }
+  },
+    "modules": [
+    "break",{
+      "type": "custom",
+      "format":"\u001b[38;2;153;218;238m╭───SMUG───╮"
+    },
+    {
+      "type": "os",
+      "key": "│    OS   │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "kernel",
+      "key": "│ 󰻠 KERNEL󰻠 │",
+      "keyColor": "#DFEFF7"
+      
+    },
+    {
+      "type": "uptime",
+      "key": "│  UPTIME │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "packages",
+      "key": "│ 󰏖  PKG 󰏖  │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "icons",
+      "key": "│  ICONS  │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "font",
+      "key": "│   FONT  │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "cursor",
+      "key": "│  CURSOR │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "shell",
+      "key": "│  SHELL  │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "terminal",
+      "key": "│  TERM   │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "cpu",
+      "key": "│   CPU   │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "gpu",
+      "key": "│   GPU   │",
+      "keyColor": "#DFEFF7"
+    },
+    {
+      "type": "memory",
+      "key": "│   RAM   │",
+      "keyColor": "#DFEFF7"
+    },
+      {
+      "type": "custom",
+      "format":"\u001b[38;2;153;218;238m╰───SMUG───╯"
+    },
+
+    {
+      "type": "colors",
+      "paddingLeft": 2,
+      "symbol": "triangle"
+    }
+  ]
+}

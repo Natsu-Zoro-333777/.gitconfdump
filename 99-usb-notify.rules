@@ -1,0 +1,3 @@
+#Notify on USB add/remove (top-level only)
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="/usr/bin/systemd-run --machine=USERNAME@.host --user /usr/local/bin/usb-notify.sh add '%E{ID_VENDOR}' '%E{ID_MODEL}'"
+ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="/usr/bin/systemd-run --machine=USERNAME@.host --user /usr/local/bin/usb-notify.sh remove '%E{ID_VENDOR}' '%E{ID_MODEL}'"

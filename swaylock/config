@@ -1,0 +1,37 @@
+#Background
+screenshots
+effect-blur=7x5
+effect-vignette=0.5:0.6
+
+#Clock
+clock
+timestr=%H:%M:%S
+datestr=%A %d %B %Y
+
+
+#Indicator and behaviour
+indicator
+indicator-radius=180
+indicator-thickness=12
+indicator-caps-lock
+indicator-idle-visible
+
+show-failed-attempts
+ignore-empty-password
+
+#Themeing (ring)
+inside-color=1e1e2e
+ring-color=424C80
+ring-ver-color=424C80
+inside-ver-color=424C80
+ring-clear-color=424C80
+ring-wrong-color=DFEFF7
+inside-wrong-color=DFEFF7
+text-wrong-color=DFEFF7
+
+#Themeing(other)
+key-hl-color=DFEFF7
+bs-hl-color=DFEFF7
+text-color=DFEFF7
+separator-color=00000000
+line-color=00000000

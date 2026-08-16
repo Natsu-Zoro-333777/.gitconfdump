@@ -1,0 +1,5 @@
+require("theme")
+require("leader")
+require("settings")
+require("floatingterm")
+require("lsp")

@@ -1,0 +1,12 @@
+[opener]
+edit = [
+{ run = 'nvim $@', block = true, desc = "Neovim" },
+]
+swayimg = [
+{run = 'swayimg "$@"', orphan = true, desc = "swayimg" },
+]
+
+[open]
+prepend_rules = [
+{mime = "image/*", use = [ "swayimg" ] },
+]
