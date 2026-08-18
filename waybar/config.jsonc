@@ -1,15 +1,31 @@
 {    
-  "height": 62,
+  "height": 60,
 
   "spacing": 4,
 
   "layer": "top",
   "position": "top",
   "margin-top":0,
-
+  
   "modules-left": ["niri/workspaces", "wlr/taskbar"],
   "modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","network","cpu","memory","battery"],
+  "modules-right": ["tray","pulseaudio","network","cpu","memory","battery"],
+
+  "pulseaudio": {
+    "format":" {icon}",
+    "format-icons":{
+      "default": ["󰖁 "," "," "," "],
+      "default-muted":"󰝟 ",
+      "headphone":" ",
+      "headphone-muted":"󰟎 "
+    },
+    "scroll-step": 5,
+    "max-volume": 150,
+    "on-click":"GTK_THEME=Adwaita:dark pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+  },
 
   "clock": {
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
@@ -33,6 +49,7 @@
     }, */
     "disable-scroll":false,
     "format":"{icon}",
+    "icon-size": 30,
     "format-icons":{
       "1":"",
       "2":"󰈸",
@@ -49,7 +66,7 @@
 
   "wlr/taskbar":{
     "format": "{icon}",
-    "icon-size": 32,
+    "icon-size": 30,
     "icon-theme":  [ "Vivid-Dark-Icons", "hicolor", "Adwaita" ],
     "tooltip-format": "{title}",
     "on-click": "activate",
@@ -58,7 +75,7 @@
 
   "tray":{
     "format": "{icon}",
-    "icon-size": 32,
+    "icon-size": 30,
     "icon-theme": [ "Vivid-Dark-Icons", "hicolor", "Adwaita" ],
     "tooltip-format": "{title}",
     "on-click": "activate",
@@ -91,12 +108,12 @@
   },
 
   "cpu": {
-    "interval": 5,
+    "interval": 3,
     "format":"  ",
     "max-length": 10,
-    "tooltip":"true",
+    "tooltip": true,
     "tooltip-format":
-    "{usage}\n{min_frequency}\n{max_frequency}\n{avg_frequency}"
+    "{usage}%\n{min_frequency}\n{max_frequency}\n{avg_frequency}"
   },
   
 "battery": {

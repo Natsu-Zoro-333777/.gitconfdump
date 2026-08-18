@@ -160,6 +160,8 @@ if status is-interactive
     end
 
     fastfetch
+    today
+    daysleft
 
 end
 

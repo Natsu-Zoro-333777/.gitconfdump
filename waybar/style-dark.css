@@ -14,40 +14,37 @@ button:hover {
   box-shadow: none;
   text-shadow: none;
 }
-#battery, #network, #cpu, #memory  {
-  border-radius: 10px;
+#pulseaudio, #battery, #network, #cpu, #memory  {
+  border: 2px solid #DFEFF7;
+  border-radius: 8px;
   margin: 8px 0;
-  padding: 0 10px;
-}
-#battery, #network, #cpu, #memory  {
+  padding: 0 8px;
   background-color: #424C80; /*#DFEFF7;*/
   color: #99DAEE;
 }
-#clock {
+#custom-weather, #clock {
+  border-style: solid;
+  border-color: #DFEFF7;
   border-radius: 10px;
+  border-width: 2px;
   margin: 8px 0;
-  padding: 0 10px;
-}
-#custom-weather {
-  border-radius: 10px;
-  margin: 8px 0;
-  padding: 0 10px;
-}
-#clock, #custom-weather {
+  padding: 0 8px;
   background-color: #424C80; /*#DFEFF7;*/
   color: #99DAEE;
 }
 #taskbar, #tray {
+  border: 2px solid #DFEFF7;
   background-color: #424C80;
-  border-radius: 10px;
+  border-radius: 8px;
   margin: 8px 0;
-  padding: 0 10px;
+  padding: 0 8px;
 }
 #workspaces {
   background-color: #424C80;
+  border: 2px solid #DFEFF7;
   border-radius: 10px;
   margin: 8px 0;
-  padding: 0 10px;
+  padding: 0 8px;
 }
 #workspaces button,
 #taskbar button {
