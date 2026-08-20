@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LOCATION="${LOCATION:YOURCITY}"
+LOCATION="${LOCATION:-YOURCITYHERE}"
 CACHE="$HOME/.cache/weather.txt"
 
 
