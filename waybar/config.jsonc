@@ -7,7 +7,7 @@
   "position": "top",
   "margin-top":0,
   
-  "modules-left": ["niri/workspaces", "wlr/taskbar"],
+  "modules-left": ["ext/workspaces", "wlr/taskbar"],
   "modules-center": ["clock","custom/weather"],
   "modules-right": ["tray","pulseaudio","network","cpu","memory","battery"],
 
@@ -32,7 +32,7 @@
     "format-alt":"{:%Y-%m-%d}"
   },
 
-  "niri/workspaces":{
+  "ext/workspaces":{
     "all-outputs":true,
     "active-only":false,
    /* "persistent-workspaces":{ 
