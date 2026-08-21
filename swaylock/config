@@ -6,13 +6,13 @@ effect-vignette=0.5:0.6
 #Clock
 clock
 timestr=%H:%M:%S
-datestr=%A %d %B %Y
+datestr=%a %d %b %Y
 
 
 #Indicator and behaviour
 indicator
-indicator-radius=180
-indicator-thickness=12
+indicator-radius=200
+indicator-thickness=16
 indicator-caps-lock
 indicator-idle-visible
 
@@ -25,9 +25,9 @@ ring-color=424C80
 ring-ver-color=424C80
 inside-ver-color=424C80
 ring-clear-color=424C80
-ring-wrong-color=DFEFF7
+ring-wrong-color=424C80
 inside-wrong-color=DFEFF7
-text-wrong-color=DFEFF7
+text-wrong-color=424C80
 
 #Themeing(other)
 key-hl-color=DFEFF7
