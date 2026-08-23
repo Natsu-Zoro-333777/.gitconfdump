@@ -1,0 +1,130 @@
+{    
+  "height": 32,
+
+  "spacing": 4,
+
+  "layer": "top",
+  "position": "top",
+  "margin-top":0,
+  
+  "modules-left": ["ext/workspaces", "wlr/taskbar"],
+  "modules-center": ["clock","custom/weather"],
+  "modules-right": ["tray","mango/layout","pulseaudio","network","cpu","memory","battery"],
+
+  "pulseaudio": {
+    "format":" {icon}",
+    "format-icons":{
+      "default": ["󰖁 "," "," "," "],
+      "default-muted":"󰝟 ",
+      "headphone":" ",
+      "headphone-muted":"󰟎 "
+    },
+    "scroll-step": 5,
+    "max-volume": 150,
+    "on-click":"GTK_THEME=Adwaita:dark pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+  },
+  "clock": {
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt":"{:%Y-%m-%d}"
+  },
+  "ext/workspaces":{
+    "all-outputs":true,
+    "active-only":false,
+   /* "persistent-workspaces":{ 
+      "1":[], 
+      "2":[], 
+      "3":[], 
+      "4":[],
+      "5":[], 
+      "6":[], 
+      "7":[], 
+      "8":[], 
+      "9":[],
+      "10":[]
+    }, */
+    "disable-scroll":false,
+    "format":"{icon}",
+    "icon-size": 28,
+    "format-icons":{
+      "1":"",
+      "2":"󰈸",
+      "3":"",
+      "4":"󰈸",
+      "5":"",
+      "6":"󰈸",
+      "7":"",
+      "8":"󰈸",
+      "9":"",
+      "10":"󰈸"
+    }
+  },
+  "wlr/taskbar":{
+    "format": "{icon}",
+    "icon-size": 28,
+    "icon-theme":  [ "Vivid-Dark-Icons", "hicolor", "Adwaita" ],
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+  "tray":{
+    "format": "{icon}",
+    "icon-size": 28,
+    "icon-theme": [ "Vivid-Dark-Icons", "hicolor", "Adwaita" ],
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+  "network": {
+    "format":" 󰖩 ",
+    "format-disconnected":" 󰖪 ",
+    "tooltip-format-wifi": 
+    "{essid}\n{ifname}\n{bandwidthUpBits}/{bandwidthDownBits}"
+  },
+  "custom/weather": {
+    "exec": "$HOME/.config/waybar/scripts/weather.sh",
+   "interval": 600,
+    "return-type": "json",
+    "format":{},
+    "tooltip":true,
+    "on-click":"xdg-open 'https://wttr.in/Tucson'",
+    "on-click-right":"pkill -RTMN+10 waybar",
+    "escape":true
+  },
+  "memory": {
+    "format":"  ",
+    "tooltip-format":
+    "{used}GiB\n{avail}GiB\n{total}GiB\n{swapState}\n{swapUsed}GiB\n{swapAvail}GiB\n{swapTotal}GiB"
+  },
+  "cpu": {
+    "interval": 3,
+    "format":"  ",
+    "max-length": 10,
+    "tooltip": true,
+    "tooltip-format":
+    "{usage}%\n{min_frequency}\n{max_frequency}\n{avg_frequency}"
+  },
+  "battery": {
+	  //"bat": "BAT2", for systems with additional battery
+	  "interval": 60,
+	  "states": {
+		  "warning": 30,
+		  "critical": 15
+	  },
+	  "events": {
+		  "on-discharging-warning": "notify-send -u normal 'Low Battery'",
+		  "on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
+		  "on-charging-100": "notify-send -u normal 'Battery Full!'"
+	  },
+	  "format": "{icon}",
+	  "format-icons": ["", "", "", "", ""],
+    "tooltip": true,
+    "tooltip-format": "{capacity}%",
+	  "max-length": 25
+  },
+  "mango/layout": {
+    "format": "{symbol}"
+  }
+}
