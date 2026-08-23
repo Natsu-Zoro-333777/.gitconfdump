@@ -159,6 +159,8 @@ if status is-interactive
         find /lib/modules/(uname -r) -type f -name '*.ko*'
     end
 
+    set -x GROFF_NO_SGR 1
+
     fastfetch
     today
     daysleft
