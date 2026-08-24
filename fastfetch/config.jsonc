@@ -20,72 +20,72 @@
     "modules": [
     "break",{
       "type": "custom",
-      "format":"\u001b[38;2;153;218;238m╭───SMUG───╮"
+      "format":"╭───SMUG───╮"
     },
     {
       "type": "os",
       "key": "│    OS   │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#fb4934"
     },
     {
       "type": "kernel",
       "key": "│ 󰻠 KERNEL󰻠 │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#fabd2f"
       
     },
     {
       "type": "uptime",
       "key": "│  UPTIME │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#fe8019"
     },
     {
       "type": "packages",
       "key": "│ 󰏖  PKG 󰏖  │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#b8bb26"
     },
     {
       "type": "icons",
       "key": "│  ICONS  │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#8ec07c"
     },
     {
       "type": "font",
       "key": "│   FONT  │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#83a598"
     },
     {
       "type": "cursor",
-      "key": "│  CURSOR │",
-      "keyColor": "#DFEFF7"
+      "key": "│  MOUSE  │",
+      "keyColor": "#d3869b"
     },
     {
       "type": "shell",
       "key": "│  SHELL  │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#d65d0e"
     },
     {
       "type": "terminal",
       "key": "│  TERM   │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#cc241d"
     },
     {
       "type": "cpu",
       "key": "│   CPU   │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#d79921"
     },
     {
       "type": "gpu",
       "key": "│   GPU   │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#458588"
     },
     {
       "type": "memory",
       "key": "│   RAM   │",
-      "keyColor": "#DFEFF7"
+      "keyColor": "#689d6a"
     },
       {
       "type": "custom",
-      "format":"\u001b[38;2;153;218;238m╰───SMUG───╯"
+      "format":"╰───SMUG───╯"
     },
 
     {
