@@ -1,20 +1,20 @@
 -- theme & transparency
 
-vim.cmd.colorscheme("default")
+vim.cmd.colorscheme("retrobox")
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" })
 vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 vim.api.nvim_set_hl(0, "FloatBorder", { bg = "none" })
 vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
-vim.api.nvim_set_hl(0, "StatusLine", { bg = "#424C80" , fg = "#99DAEE" }) --"#D63B18"
-vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#99DAEE", fg = "#424C80" }) --"#1C1C1C"
-vim.api.nvim_set_hl(0, "Tabline", { bg = "none" })
-vim.api.nvim_set_hl(0, "TablineFill", { bg = "none", fg = "#DFEFF7" })
-vim.api.nvim_set_hl(0, "TablineSel", { bg = "none" })
-vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#99DAEE" })
-vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#424C80", fg = "#99DAEE" })
-vim.api.nvim_set_hl(0, "CursorLine", { bg = "#424C80" , fg = "#99DAEE" }) --"#D63B18"
+--vim.api.nvim_set_hl(0, "StatusLine", { bg = "#424C80" , fg = "#99DAEE" }) --"#D63B18"
+--vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "#99DAEE", fg = "#424C80" }) --"#1C1C1C"
+--vim.api.nvim_set_hl(0, "Tabline", { bg = "none" })
+--vim.api.nvim_set_hl(0, "TablineFill", { bg = "none", fg = "#DFEFF7" })
+--vim.api.nvim_set_hl(0, "TablineSel", { bg = "none" })
+--vim.api.nvim_set_hl(0, "ColorColumn", { bg = "#99DAEE" })
+--vim.api.nvim_set_hl(0, "CursorColumn", { bg = "#424C80", fg = "#99DAEE" })
+--vim.api.nvim_set_hl(0, "CursorLine", { bg = "#424C80" , fg = "#99DAEE" }) --"#D63B18"
 
 
 

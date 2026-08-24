@@ -1,4 +1,4 @@
-// This config is in the KDL format: https://kdl.dev
+//// This config is in the KDL format: https://kdl.dev
 // "/-" comments out the following node.
 // Check the wiki for a full description of the configuration:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
@@ -116,7 +116,11 @@ cursor{
 
 environment {
   QT_QPA_PLATFORM "wayland"
-  QT_QPA_PLATFORMTHEME "gtk3"
+  QT_QUICK_CONTORLS_STYLE "Basic"
+  QT_QPA_PLATFORMTHEME "gtk"
+  QT_QPA_PLATFORMTHEME_QT6 "gtk"
+  EDITOR "nvim"
+  VISUAL "nvim"
 }
   
 
@@ -258,7 +262,7 @@ layout {
         spread 10
 
         // Offset moves the shadow relative to the window.
-        offset x=5 y=5
+        offset x=0 y=0
 
         // You can also change the shadow color and opacity.
         color "#424C80" //"#99DAEE" //"#D63B18"
@@ -284,11 +288,11 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
+spawn-sh-at-startup "waybar --config $HOME/.config/niri/niriwaybar/config.jsonc --style $HOME/.config/niri/niriwaybar/style-dark.css"
 spawn-at-startup "ghostty" "--class=btop.startup" "-e" "btop"
 spawn-at-startup "wl-paste" "--type" "text" "--watch" "cliphist" "store"
 spawn-at-startup "wl-paste" "--type" "image" "--watch" "cliphist" "store"
-spawn-at-startup "swaybg" "-i" "/home/vegapunk/Pictures/SmugAlana/Official_art.webp" "-m" "fit"
+spawn-sh-at-startup "swaybg -i $HOME/Pictures/Rotation/Luffy-neon.jpeg -m fill"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -370,7 +374,12 @@ window-rule {
 }
 
 window-rule {
-  match app-id=r#"^yazi\.startup$"#
+  match app-id="pavucontrol"
+  open-floating true
+}
+
+window-rule {
+  match app-id=r#"^org\.yazi\.yazi$"#
   open-floating true
 }
 window-rule {
@@ -397,7 +406,7 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
     Mod+N hotkey-overlay-title="Open swaync" { spawn "swaync-client" "-op"; }
-    Mod+E hotkey-overlay-title="File Manager: yazi" { spawn-sh "ghostty --class=yazi.startup -e yazi"; }
+    Mod+E hotkey-overlay-title="File Manager: yazi" { spawn-sh "ghostty --class=org.yazi.yazi -e yazi"; }
     Mod+D hotkey-overlay-title="Run an Application: Rofi" { spawn-sh "rofi -show drun"; }
     Alt+V { spawn-sh "cliphist list | rofi -dmenu -display-columns 2 -p Clipboard | cliphist decode | wl-copy"; }
     //Alt+Tab hotkey-overlay-title="Run an Application: Rofi" { spawn-sh "rofi -show window"; }

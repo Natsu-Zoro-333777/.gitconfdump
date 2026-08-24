@@ -1,5 +1,5 @@
 {    
-  "height": 60,
+  "height": 64,
 
   "spacing": 4,
 
@@ -7,7 +7,7 @@
   "position": "top",
   "margin-top":0,
   
-  "modules-left": ["ext/workspaces", "wlr/taskbar"],
+  "modules-left": ["niri/workspaces", "wlr/taskbar"],
   "modules-center": ["clock","custom/weather"],
   "modules-right": ["tray","pulseaudio","network","cpu","memory","battery"],
 
@@ -32,7 +32,7 @@
     "format-alt":"{:%Y-%m-%d}"
   },
 
-  "ext/workspaces":{
+  "niri/workspaces":{
     "all-outputs":true,
     "active-only":false,
    /* "persistent-workspaces":{ 
@@ -91,7 +91,7 @@
   },
 
   "custom/weather": {
-    "exec": "$HOME/.config/waybar/scripts/weather.sh",
+    "exec": "$HOME/.config/niri/niriwaybar/scripts/weather.sh",
    "interval": 600,
     "return-type": "json",
     "format":{},
