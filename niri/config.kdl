@@ -186,13 +186,13 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#424C80" //"#99DAEE" //"#D63B18"
+        active-color "#fb4934" //"#99DAEE" //"#D63B18"
 
         // Color of the ring on inactive monitors.
         //
         // The focus ring only draws around the active window, so the only place
         // where you can see its inactive-color is on other monitors.
-        inactive-color "#99DAEE" //"#DFEFF7"
+        inactive-color "#fe8019" //"#DFEFF7"
 
         // You can also use gradients. They take precedence over solid colors.
         // Gradients are rendered the same as CSS linear-gradient(angle, from, to).
@@ -217,11 +217,11 @@ layout {
         on
 
         width 3
-        active-color  "#424C80" //"#99DAEE" //"#D63B18"
-        inactive-color "#99DAEE" //"#DFEFF7"
+        active-color  "#fb4934" //"#99DAEE" //"#D63B18"
+        inactive-color "#fe8019" //"#DFEFF7"
 
         // Color of the border around windows that request your attention.
-        urgent-color "#9b0000"
+        urgent-color "#fabd2f"
 
         // Gradients can use a few different interpolation color spaces.
         // For example, this is a pastel rainbow gradient via in="oklch longer hue".
@@ -265,8 +265,8 @@ layout {
         offset x=0 y=0
 
         // You can also change the shadow color and opacity.
-        color "#424C80" //"#99DAEE" //"#D63B18"
-        inactive-color "#99DAEE" //"#DFEFF7"
+        color "#fb4934" //"#99DAEE" //"#D63B18"
+        inactive-color "#fe8019" //"#DFEFF7"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -683,8 +683,8 @@ recent-windows {
   open-delay-ms 150
 
   highlight {
-    active-color "#424C80" //"#99DAEE" //"D63B18"
-    urgent-color "#DFEFF7"
+    active-color "#fb4934" //"#99DAEE" //"D63B18"
+    urgent-color "#fabd2f"
     padding 30
     corner-radius 0
   }
