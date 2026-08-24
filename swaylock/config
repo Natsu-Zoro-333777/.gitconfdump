@@ -20,18 +20,18 @@ show-failed-attempts
 ignore-empty-password
 
 #Themeing (ring)
-inside-color=1e1e2e
-ring-color=424C80
-ring-ver-color=424C80
-inside-ver-color=424C80
-ring-clear-color=424C80
-ring-wrong-color=424C80
-inside-wrong-color=DFEFF7
-text-wrong-color=424C80
+inside-color=282828
+ring-color=fb4934
+ring-ver-color=fabd2f
+inside-ver-color=fabd2f
+ring-clear-color=fe8019
+ring-wrong-color=b8bb26
+inside-wrong-color=98971a
+text-wrong-color=fabd2f
 
 #Themeing(other)
-key-hl-color=DFEFF7
-bs-hl-color=DFEFF7
-text-color=DFEFF7
+key-hl-color=fe8019
+bs-hl-color=fabd2f
+text-color=fbf1c7
 separator-color=00000000
 line-color=00000000
