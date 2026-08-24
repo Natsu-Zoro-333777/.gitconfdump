@@ -14,65 +14,50 @@ button:hover {
   box-shadow: none;
   text-shadow: none;
 }
+#custom-weather,
+#clock,
 #pulseaudio,
 #battery,
 #network,
 #cpu,
 #memory,
-#layout,
-#custom-weather,
-#clock {
-  border: 3px solid #99DAEE;
+#layout {
+  border: 3px solid #fb4934; /*#99DAEE;*/
   border-radius: 8px;
   margin: 8px 0;
   padding: 0 8px;
-  background-color: #424C80; /*#DFEFF7;*/
-  color: #DFEFF7;
+  background-color: #282828; /*#424C80; #DFEFF7;*/
+  color: #fabd2f;
 }
-/* #custom-weather, #clock {
-  border-style: solid;
-  border-color: #99DAEE;
-  border-radius: 10px;
-  border-width: 3px;
-  margin: 8px 0;
-  padding: 0 8px;
-  background-color: #424C80; #DFEFF7;
-  color: #DFEFF7;
-}*/
-#taskbar, #tray {
-  border: 3px solid #DFEFF7;
-  background-color: #424C80;
-  border-radius: 8px;
-  margin: 8px 0;
-  padding: 0 8px;
-}
-#workspaces {
-  background-color: #424C80;
-  border: 3px solid #DFEFF7;
+#workspaces,
+#taskbar,
+#tray {
+  background-color: #282828;
+  border: 3px solid #fe8019;
   border-radius: 10px;
   margin: 8px 0;
   padding: 0 8px;
 }
 #workspaces button,
 #taskbar button {
-  color: #99DAEE; /*#DFEFF7;*/
-  background-color: #424C80;
+  color: #fe8019; /*#99DAEE; #DFEFF7;*/
+  background-color: #282828;
   transition: all 0.15s ease;
 }
 #workspaces button:hover,
 #taskbar button:hover {
-  color: #424C80;
-  background-color: #99DAEE; /*#DFEFF7;*/ /*rgba(223,239,247,0.25);*/
-  box-shadow: 0 0 8px #99DAEE, /*#DFEFF7,*/
-              0 0 16px #99DAEE; /*#DFEFF7;*/
+  color: #282828;
+  background-color: #fe8019; /*#99DAEE; #DFEFF7; rgba(223,239,247,0.25);*/
+  box-shadow: 0 0 8px #fe8019, /*#DFEFF7,*/
+              0 0 16px #fe8019; /*#DFEFF7;*/
 }
 #workspaces button.active,
 #taskbar button.active,
 #workspaces button.focused {
-  color: #424C80;
-  background-color: #99DAEE; /*#DFEFF7;*/
+  color: #282828;
+  background-color: #fe8019;
 }
 #workspaces button:hover label,
 #taskbar button:hover label {
-  color: #424C80
+  color: #282828;
 }
