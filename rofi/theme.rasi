@@ -6,16 +6,16 @@
 
 // define colors etc.
 * {
-    bg: #424C80; //#DFEFF7; // #D63B18;// #24283b;
-    hv: #DFEFF7;  //#99DAEE;
-    primary: #DFEFF7; // #99DAEE;// TokyoNight bright black
-    ug: #D63B18;
+    bg: #282828; //#DFEFF7; // #D63B18;// #24283b;
+    hv: #fe8019;  //#99DAEE;
+    primary: #fb4934; // #99DAEE;// TokyoNight bright black
+    ug: #fb4934;
     font: "Monospace 12";
     background-color: @bg;
     //dark: @bg;
     border: 0px;
-    kl: #DFEFF7;  //#99DAEE;
-    black: #99DAEE; // #D63B18;
+    kl: #fabd2f;  //#99DAEE;
+    black: #fbf1c7; // #D63B18;
 
     transparent: rgba(46,52,64,0);
 }
