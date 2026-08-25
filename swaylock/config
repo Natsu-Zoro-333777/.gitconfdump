@@ -21,17 +21,17 @@ ignore-empty-password
 
 #Themeing (ring)
 inside-color=282828
-ring-color=fb4934
-ring-ver-color=fabd2f
+ring-color=fe8019
+ring-ver-color=d3869b
 inside-ver-color=fabd2f
 ring-clear-color=fe8019
-ring-wrong-color=b8bb26
-inside-wrong-color=98971a
-text-wrong-color=fabd2f
+ring-wrong-color=8ec07c
+inside-wrong-color=83a598
+text-wrong-color=b8bb26
 
 #Themeing(other)
-key-hl-color=fe8019
-bs-hl-color=fabd2f
-text-color=fbf1c7
+key-hl-color=fbf1c7
+bs-hl-color=fbf1c7
+text-color=fb4934
 separator-color=00000000
 line-color=00000000
