@@ -8,8 +8,8 @@
   "margin-top":0,
   
   "modules-left": ["ext/workspaces", "wlr/taskbar"],
-  "modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","mango/layout","pulseaudio","network","cpu","memory","battery"],
+  //"modules-center": ["clock","custom/weather"],
+  "modules-right": ["tray","mango/layout","custom/notification","custom/weather","pulseaudio","network","cpu","memory","battery","clock"],
 
   "pulseaudio": {
     "format":" {icon}",
@@ -125,5 +125,25 @@
   },
   "mango/layout": {
     "format": "{symbol}"
-  }
+  },
+  "custom/notification": {
+    "tooltip": true,
+    "format": "<span size='16pt'>{icon}</span>",
+    "format-icons": {
+      "notification": "🐌💬",
+          "none": "🐌",
+          "dnd-notification": "🐌💤",
+          "dnd-none": "💤",
+          "inhibited-notification": "🐌🔕",
+          "inhibited-none": "🐌",
+          "dnd-inhibited-notification": "🐌💤",
+          "dnd-inhibited-none": "💤"
+        },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+    }
 }
