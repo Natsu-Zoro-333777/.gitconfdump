@@ -105,7 +105,7 @@ output "DP-3" {
     // so to put another output directly adjacent to it on the right, set its x to 1920.
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
-    position x=1280 y=0
+    position x=0 y=0
 }
 
 cursor{
@@ -116,7 +116,7 @@ cursor{
 
 environment {
   QT_QPA_PLATFORM "wayland"
-  QT_QUICK_CONTORLS_STYLE "Basic"
+  QT_QUICK_CONTROLS_STYLE "Basic"
   QT_QPA_PLATFORMTHEME "gtk"
   QT_QPA_PLATFORMTHEME_QT6 "gtk"
   EDITOR "nvim"
@@ -234,7 +234,7 @@ layout {
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        on
+        off
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -387,6 +387,13 @@ window-rule {
   //match at-startup=true
   open-maximized true
 }
+
+window-rule {
+  match app-id="firefox"
+  //match at-startup=true
+  open-maximized true
+}
+
 
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
@@ -655,8 +662,8 @@ binds {
     // Mod+Shift+Space { switch-layout "prev"; }
 
     Print { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    Mod+Print { spawn-sh " grim -c $HOME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S') "; }
+    Alt+Print { spawn-sh "grim -g \"$(slurp)\" $HOME/Pictures/Screenshots/$(date +'%Y-%m-%d_%H-%M-%S') "; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here

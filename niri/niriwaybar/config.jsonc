@@ -8,8 +8,8 @@
   "margin-top":0,
   
   "modules-left": ["niri/workspaces", "wlr/taskbar"],
-  "modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","pulseaudio","network","cpu","memory","battery"],
+ // "modules-center": ["clock","custom/weather"],
+  "modules-right": ["tray","custom/notification","clock","custom/weather","pulseaudio","network","cpu","memory","battery"],
 
   "pulseaudio": {
     "format":" {icon}",
@@ -114,20 +114,41 @@
     "{usage}%\n{min_frequency}\n{max_frequency}\n{avg_frequency}"
   },
   
-"battery": {
-	//"bat": "BAT2",
-	"interval": 60,
-	"states": {
-		"warning": 30,
-		"critical": 15
-	},
-	"events": {
-		"on-discharging-warning": "notify-send -u normal 'Low Battery'",
-		"on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
-		"on-charging-100": "notify-send -u normal 'Battery Full!'"
-	},
-	"format": "{capacity}% {icon}",
-	"format-icons": ["", "", "", "", ""],
-	"max-length": 25
-}
+  "battery": {
+	  //"bat": "BAT2",
+	  "interval": 60,
+	  "states": {
+		  "warning": 30,
+		  "critical": 15
+	  },
+	  "events": {
+		  "on-discharging-warning": "notify-send -u normal 'Low Battery'",
+		  "on-discharging-critical": "notify-send -u critical 'Very Low Battery'",
+		  "on-charging-100": "notify-send -u normal 'Battery Full!'"
+	  },
+	  "format": "{capacity}% {icon}",
+	  "format-icons": ["", "", "", "", ""],
+	  "max-length": 25
+  },
+  "custom/notification": {
+    "tooltip": true,
+    "format": "<span size='16pt'>{icon}</span>",
+    "format-icons": {
+      "notification": "🐌💬",
+          "none": "🐌",
+          "dnd-notification": "🐌💤",
+          "dnd-none": "💤",
+          "inhibited-notification": "🐌🔕",
+          "inhibited-none": "🐌",
+          "dnd-inhibited-notification": "🐌💤",
+          "dnd-inhibited-none": "💤"
+        },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+    }
+  }
 }

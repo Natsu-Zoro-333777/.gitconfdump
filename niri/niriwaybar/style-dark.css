@@ -28,6 +28,10 @@ button:hover {
   background-color: #282828; /*#424C80; #DFEFF7;*/
   color: #fabd2f;
 }
+#custom-notification {
+  font-family: "noto-fonts-emoji";
+}
+#custom-notification,
 #workspaces,
 #taskbar,
 #tray {
