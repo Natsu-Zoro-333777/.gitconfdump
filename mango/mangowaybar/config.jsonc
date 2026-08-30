@@ -9,7 +9,7 @@
   
   "modules-left": ["ext/workspaces", "wlr/taskbar"],
   //"modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","mango/layout","custom/notification","custom/weather","pulseaudio","network","cpu","memory","battery","clock"],
+  "modules-right": ["tray","mango/layout","custom/notification","pulseaudio","network","cpu","memory","battery","custom/weather","clock"],
 
   "pulseaudio": {
     "format":" {icon}",

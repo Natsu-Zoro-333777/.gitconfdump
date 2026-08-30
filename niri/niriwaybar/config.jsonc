@@ -9,7 +9,7 @@
   
   "modules-left": ["niri/workspaces", "wlr/taskbar"],
  // "modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","custom/notification","clock","custom/weather","pulseaudio","network","cpu","memory","battery"],
+  "modules-right": ["tray","custom/notification","pulseaudio","network","cpu","memory","battery","custom/weather","clock"],
 
   "pulseaudio": {
     "format":" {icon}",
