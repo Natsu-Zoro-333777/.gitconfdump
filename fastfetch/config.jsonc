@@ -7,7 +7,7 @@
   "$schema": "jttps://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
   "logo": {
     "type": "auto",
-    "source": "$HOME/Pictures/SmugAlana/*",
+    "source": "$HOME/Pictures/AiriMad.png",
     "width": 30,
     "height": 15,
     "padding": {
@@ -20,11 +20,11 @@
     "modules": [
     "break",{
       "type": "custom",
-      "format":"╭───SMUG───╮"
+      "format":"\u001b[93m╭───────────╮"
     },
     {
       "type": "os",
-      "key": "│    OS   │",
+      "key": "│    OS   │",
       "keyColor": "#fb4934"
     },
     {
@@ -45,17 +45,17 @@
     },
     {
       "type": "icons",
-      "key": "│  ICONS  │",
+      "key": "│  ICONS  │",
       "keyColor": "#8ec07c"
     },
     {
       "type": "font",
-      "key": "│   FONT  │",
+      "key": "│   FONT  │",
       "keyColor": "#83a598"
     },
     {
       "type": "cursor",
-      "key": "│  MOUSE  │",
+      "key": "│   PTR   │",
       "keyColor": "#d3869b"
     },
     {
@@ -65,7 +65,7 @@
     },
     {
       "type": "terminal",
-      "key": "│  TERM   │",
+      "key": "│ 󱙝  TTY 󱙝  │",
       "keyColor": "#cc241d"
     },
     {
@@ -75,7 +75,7 @@
     },
     {
       "type": "gpu",
-      "key": "│   GPU   │",
+      "key": "│   GPU   │",
       "keyColor": "#458588"
     },
     {
@@ -85,7 +85,7 @@
     },
       {
       "type": "custom",
-      "format":"╰───SMUG───╯"
+      "format":"\u001b[93m╰───────────╯"
     },
 
     {
