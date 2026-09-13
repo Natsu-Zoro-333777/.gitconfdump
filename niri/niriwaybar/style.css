@@ -22,7 +22,7 @@ button:hover {
 #cpu,
 #memory {
   border: 3px solid #fb4934; /*#99DAEE;*/
-  border-radius: 8px;
+  border-radius: 0;
   margin: 8px 0;
   padding: 0 8px;
   background-color: #282828; /*#424C80; #DFEFF7;*/
@@ -37,7 +37,7 @@ button:hover {
 #tray {
   background-color: #282828;
   border: 3px solid #fe8019;
-  border-radius: 10px;
+  border-radius: 0;
   margin: 8px 0;
   padding: 0 8px;
 }

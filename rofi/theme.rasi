@@ -34,7 +34,7 @@ window {
     transparency: "screenshot";
     border-color: @transparent;   
     border: 0px;
-    border-radius: 6px;
+    border-radius: 0px;
     spacing: 0;
     children: [ mainbox ];
 }
@@ -49,7 +49,7 @@ inputbar {
     padding: 8px 12px;
     border: 3px 3px 2px 3px;
     border-color: @primary;
-    border-radius: 6px 6px 0px 0px;
+    border-radius: 0px;
     spacing: 6px;
     children: [ prompt, entry ];
 }
@@ -87,7 +87,7 @@ listview {
     lines: 7 ;
     columns: 1;
     border: 0px 3px 3px 3px; 
-    border-radius: 0px 0px 6px 6px;
+    border-radius: 0px;
     border-color: @primary;
     dynamic: false;
 }
@@ -136,7 +136,7 @@ button {
     horizonatal-align: 0.5;
 
     border: 2px 0px 2px 2px;
-    border-radius: 4px 0px 0px 4px;
+    border-radius: 0px;
     border-color: @primary;
 }
 

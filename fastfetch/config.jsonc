@@ -65,7 +65,7 @@
     },
     {
       "type": "terminal",
-      "key": "│ 󱙝  TTY 󱙝  │",
+      "key": "│   TTY   │",
       "keyColor": "#cc241d"
     },
     {

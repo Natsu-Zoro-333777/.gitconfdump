@@ -109,18 +109,18 @@ output "DP-3" {
 }
 
 cursor{
-  xcursor-theme "FernBLZ"
+  xcursor-theme "ChisakaAiri"
   xcursor-size 24
 
 }
 
 environment {
   QT_QPA_PLATFORM "wayland"
-  QT_QUICK_CONTROLS_STYLE "Basic"
-  QT_QPA_PLATFORMTHEME "gtk"
-  QT_QPA_PLATFORMTHEME_QT6 "gtk"
+  QT_QPA_PLATFORMTHEME "qt6ct"
+  QT_QPA_PLATFORMTHEME_QT6 "qt6ct"
   EDITOR "nvim"
   VISUAL "nvim"
+  XCURSOR_THEME "ChisakaAiri"
 }
   
 
@@ -364,7 +364,7 @@ window-rule {
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
-window-rule {
+/-window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
@@ -389,7 +389,7 @@ window-rule {
 }
 
 window-rule {
-  match app-id="firefox"
+  match app-id="chromium"
   //match at-startup=true
   open-maximized true
 }

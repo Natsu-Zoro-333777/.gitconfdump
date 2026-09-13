@@ -1,5 +1,5 @@
 {    
-  "height": 64,
+  "height": 62,
 
   "spacing": 4,
 
@@ -7,9 +7,9 @@
   "position": "top",
   "margin-top":0,
   
-  "modules-left": ["niri/workspaces", "wlr/taskbar"],
+  "modules-left": ["niri/workspaces", "wlr/taskbar", "tray", "custom/notification"],
  // "modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","custom/notification","pulseaudio","network","cpu","memory","battery","custom/weather","clock"],
+  "modules-right": ["pulseaudio","network","cpu","memory","battery","custom/weather","clock"],
 
   "pulseaudio": {
     "format":" {icon}",
