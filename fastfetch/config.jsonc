@@ -6,15 +6,24 @@
 
   "$schema": "jttps://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
   "logo": {
-    "type": "auto",
-    "source": "$HOME/Pictures/AiriMad.png",
-    "width": 30,
+    "type": "file",
+    "source": "~/Pictures/strawhatjollyroger.ascii",
+    "color": {
+      "1": "#ebdbb2"
+    },
+    "width": 15,
+    //"recache": true
+    //"chafa": {
+    //  "symbols": "ascii",
+    //  "canvasMode": "FGBG",
+    // "recache": "false"
+    //},
     "height": 15,
     "padding": {
       "top": 1,
-      "left": 1,
-      "right": 1,
-      "bottom": 1
+      "left": 0,
+      "right": 0,
+      "bottom": 0
     }
   },
     "modules": [
@@ -45,17 +54,17 @@
     },
     {
       "type": "icons",
-      "key": "│  ICONS  │",
+      "key": "│ 󱇐  ICON 󰞇 │",
       "keyColor": "#8ec07c"
     },
     {
       "type": "font",
-      "key": "│   FONT  │",
+      "key": "│ 󰩰  FONT 󰣉 │",
       "keyColor": "#83a598"
     },
     {
       "type": "cursor",
-      "key": "│   PTR   │",
+      "key": "│ 󰺾  PTR   │",
       "keyColor": "#d3869b"
     },
     {
@@ -75,7 +84,7 @@
     },
     {
       "type": "gpu",
-      "key": "│   GPU   │",
+      "key": "│ 󰐂  GPU   │",
       "keyColor": "#458588"
     },
     {
