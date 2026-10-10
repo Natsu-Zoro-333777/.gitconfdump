@@ -9,17 +9,9 @@
     "type": "file",
     "source": "~/Pictures/strawhatjollyroger.ascii",
     "color": {
-      "1": "#fb4934",
-      "2": "#fabd2f",
-      "3": "#fe8019",
-      "4": "#b8bb26",
-      "5": "#8ec07c",
-      "6": "#83a598",
-      "7": "#d3869b",
-      "8": "#d65d0e",
-      "9": "#cc241d"
+      "1": "#ebdbb2"
     },
-    "width": 36,
+    "width": 15,
     //"recache": true
     //"chafa": {
     //  "symbols": "ascii",
@@ -30,79 +22,44 @@
     "padding": {
       "top": 1,
       "left": 0,
-      "right": 1,
+      "right": 0,
       "bottom": 0
     }
   },
     "modules": [
     "break",{
       "type": "custom",
-      "format":"\u001b[93m╭───────────╮"
+      "format":"\u001b[93m╭──────────╮"
     },
     {
       "type": "os",
-      "key": "│    OS   │",
+      "key": "│   OS   │",
       "keyColor": "#fb4934"
     },
     {
       "type": "kernel",
-      "key": "│ 󰻠 KERNEL󰻠 │",
+      "key": "│󰻠 KERNEL󰻠 │",
       "keyColor": "#fabd2f"
       
     },
     {
       "type": "uptime",
-      "key": "│  UPTIME │",
+      "key": "│ UPTIME │",
       "keyColor": "#fe8019"
     },
     {
       "type": "packages",
-      "key": "│ 󰏖  PKGS 󰏖 │",
+      "key": "│󰏖  PKGS 󰏖 │",
       "keyColor": "#b8bb26"
     },
     {
-      "type": "icons",
-      "key": "│ 󱇐  ICON 󰞇 │",
-      "keyColor": "#8ec07c"
-    },
-    {
-      "type": "font",
-      "key": "│ 󰩰  FONT 󰣉 │",
-      "keyColor": "#83a598"
-    },
-    {
-      "type": "cursor",
-      "key": "│ 󰺾 CURSOR │",
-      "keyColor": "#d3869b"
-    },
-    {
-      "type": "shell",
-      "key": "│  SHELL  │",
-      "keyColor": "#d65d0e"
-    },
-    {
       "type": "terminal",
-      "key": "│   TTY   │",
+      "key": "│  TERM  │",
       "keyColor": "#cc241d"
-    },
-    {
-      "type": "cpu",
-      "key": "│   CPU   │",
-      "keyColor": "#d79921"
-    },
-    {
-      "type": "gpu",
-      "key": "│ 󰐂  GPU   │",
-      "keyColor": "#458588"
-    },
-    {
-      "type": "memory",
-      "key": "│   RAM   │",
-      "keyColor": "#689d6a"
     },
       {
       "type": "custom",
-      "format":"\u001b[93m╰───────────╯"
+      "format":"\u001b[93m╰──────────╯"
     },
 
     {
