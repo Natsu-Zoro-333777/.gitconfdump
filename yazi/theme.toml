@@ -1,0 +1,16 @@
+[flavor]
+dark = "gruvbox-dark"
+light = "gruvbox-dark"
+
+# Lock the terminal background so Yazi does not pick the light icon set
+# (light fallback uses fg = "#000000" for generic file pages).
+[app]
+overall = { bg = "#1d2021" }
+
+# Cream page icon for ordinary files. Prepended so it wins over the
+# light-theme fallback `{ if = "!dir", text = "", fg = "#000000" }`
+# without stealing directory/symlink/executable icons.
+[icon]
+prepend_conds = [
+  { if = "!(dir | link | orphan | exec | block | char | fifo | sock | sticky | dummy)", text = "", fg = "#ebdbb2" },
+]

@@ -9,9 +9,17 @@
     "type": "file",
     "source": "~/Pictures/strawhatjollyroger.ascii",
     "color": {
-      "1": "#ebdbb2"
+      "1": "#fb4934",
+      "2": "#fabd2f",
+      "3": "#fe8019",
+      "4": "#b8bb26",
+      "5": "#8ec07c",
+      "6": "#83a598",
+      "7": "#d3869b",
+      "8": "#d65d0e",
+      "9": "#cc241d"
     },
-    "width": 15,
+    "width": 36,
     //"recache": true
     //"chafa": {
     //  "symbols": "ascii",
@@ -22,7 +30,7 @@
     "padding": {
       "top": 1,
       "left": 0,
-      "right": 0,
+      "right": 1,
       "bottom": 0
     }
   },
@@ -49,7 +57,7 @@
     },
     {
       "type": "packages",
-      "key": "│ 󰏖  PKG 󰏖  │",
+      "key": "│ 󰏖  PKGS 󰏖 │",
       "keyColor": "#b8bb26"
     },
     {
@@ -64,7 +72,7 @@
     },
     {
       "type": "cursor",
-      "key": "│ 󰺾  PTR   │",
+      "key": "│ 󰺾 CURSOR │",
       "keyColor": "#d3869b"
     },
     {

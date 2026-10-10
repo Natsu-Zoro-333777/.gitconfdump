@@ -1,12 +1,15 @@
 [opener]
 edit = [
-{ run = 'nvim $@', block = true, desc = "Neovim" },
+  { run = '~/.config/yazi/scripts/nvim-open.sh %s', block = true, desc = "nvim" },
 ]
 swayimg = [
-{run = 'swayimg "$@"', orphan = true, desc = "swayimg" },
+  { run = 'swayimg %s', orphan = true, desc = "swayimg" },
 ]
 
 [open]
 prepend_rules = [
-{mime = "image/*", use = [ "swayimg" ] },
+  { mime = "image/*", use = [ "swayimg" ] },
+  { mime = "text/*", use = [ "edit" ] },
+  { mime = "inode/x-empty", use = [ "edit" ] },
+  { mime = "application/{json,javascript,toml,x-yaml,xml}", use = [ "edit" ] },
 ]

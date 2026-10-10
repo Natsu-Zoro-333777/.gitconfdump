@@ -1,9 +1,9 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
 
-      # -----------------------------------------------------
-# File listing / viewing
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # File listing / viewing
+    # -----------------------------------------------------
     function ls
         command ls -lAFh $argv
     end
@@ -20,10 +20,10 @@ if status is-interactive
         clear
     end
 
-# -----------------------------------------------------
-# Path / system info
-# -----------------------------------------------------
-    function show_path          # ← renamed so it doesn't collide with the builtin
+    # -----------------------------------------------------
+    # Path / system info
+    # -----------------------------------------------------
+    function show_path # ← renamed so it doesn't collide with the builtin
         echo $PATH | tr ':' '\n'
     end
 
@@ -39,9 +39,9 @@ if status is-interactive
         fastfetch $argv
     end
 
-# -----------------------------------------------------
-# File creation helpers
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # File creation helpers
+    # -----------------------------------------------------
     function make1mb
         truncate -s 1m ./1MB.dat
     end
@@ -54,16 +54,16 @@ if status is-interactive
         truncate -s 10m ./10MB.dat
     end
 
-# -----------------------------------------------------
-# Search
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # Search
+    # -----------------------------------------------------
     function qfind
         find . -name $argv
     end
 
-# -----------------------------------------------------
-# Process / memory / CPU
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # Process / memory / CPU
+    # -----------------------------------------------------
     function memHogsPs
         ps -eo pid,stat,vsz,rss,time,cmd --sort=-rss | head -n 11
     end
@@ -72,9 +72,9 @@ if status is-interactive
         ps -eo pid,stat,%cpu,time,cmd --sort=-%cpu | head -n 11
     end
 
-# -----------------------------------------------------
-# Networking
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # Networking
+    # -----------------------------------------------------
     function netCons
         lsof -i $argv
     end
@@ -95,9 +95,9 @@ if status is-interactive
         sudo lsof -i -P -n | grep LISTEN
     end
 
-# -----------------------------------------------------
-# Date & Time
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # Date & Time
+    # -----------------------------------------------------
     function bdate
         date '+%a, %b %d %Y %T %Z'
     end
@@ -140,9 +140,9 @@ if status is-interactive
         date +%V
     end
 
-# -----------------------------------------------------
-# Misc
-# -----------------------------------------------------
+    # -----------------------------------------------------
+    # Misc
+    # -----------------------------------------------------
     function fix_stty
         stty sane
     end
@@ -161,10 +161,14 @@ if status is-interactive
 
     set -x GROFF_NO_SGR 1
 
+    fish_add_path $HOME/.local/bin/
+
     fastfetch
     today
     daysleft
 
 end
 
-
+# >>> grok installer >>>
+fish_add_path $HOME/.grok/bin
+# <<< grok installer <<<

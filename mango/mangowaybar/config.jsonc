@@ -7,9 +7,9 @@
   "position": "top",
   "margin-top":0,
   
-  "modules-left": ["ext/workspaces", "wlr/taskbar"],
+  "modules-left": ["ext/workspaces", "wlr/taskbar", "tray", "custom/notification"],
   //"modules-center": ["clock","custom/weather"],
-  "modules-right": ["tray","mango/layout","custom/notification","pulseaudio","network","cpu","memory","battery","custom/weather","clock"],
+  "modules-right": ["mango/layout","pulseaudio","network","cpu","memory","battery","custom/weather","clock"],
 
   "pulseaudio": {
     "format":" {icon}",
@@ -33,6 +33,7 @@
   "ext/workspaces":{
     "all-outputs":true,
     "active-only":false,
+    "ignore-hidden":true,
    /* "persistent-workspaces":{ 
       "1":[], 
       "2":[], 

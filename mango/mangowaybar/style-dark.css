@@ -23,7 +23,7 @@ button:hover {
 #custom-weather,
 #clock {
   border: 3px solid #99DAEE;
-  border-radius: 8px;
+  border-radius: 0;
   margin: 8px 0;
   padding: 0 8px;
   background-color: #424C80; /*#DFEFF7;*/
@@ -32,7 +32,7 @@ button:hover {
 /* #custom-weather, #clock {
   border-style: solid;
   border-color: #99DAEE;
-  border-radius: 10px;
+  border-radius: 0;
   border-width: 3px;
   margin: 8px 0;
   padding: 0 8px;
@@ -42,14 +42,14 @@ button:hover {
 #taskbar, #tray {
   border: 3px solid #DFEFF7;
   background-color: #424C80;
-  border-radius: 8px;
+  border-radius: 0;
   margin: 8px 0;
   padding: 0 8px;
 }
 #workspaces {
   background-color: #424C80;
   border: 3px solid #DFEFF7;
-  border-radius: 10px;
+  border-radius: 0;
   margin: 8px 0;
   padding: 0 8px;
 }
