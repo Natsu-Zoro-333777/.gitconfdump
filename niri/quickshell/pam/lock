@@ -1,0 +1,5 @@
+# Password check for the quickshell lock.
+# This file is loaded with pam_start_confdir. An include is resolved
+# inside this directory, not /etc/pam.d, so "include login" never
+# reaches the system stack and every attempt returns permission denied.
+auth required pam_unix.so
