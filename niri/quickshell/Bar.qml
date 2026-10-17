@@ -481,7 +481,7 @@ Variants {
 					hoverEnabled: true
 					onContainsMouseChanged: {
 						if (containsMouse)
-							TipState.show(clockHover, Theme.calendar(clock.date), true)
+							TipState.show(clockHover, Theme.calendar(clock.date), true, true)
 						else
 							TipState.hide(clockHover)
 					}
@@ -871,8 +871,8 @@ Variants {
 			id: tipWindow
 			visible: TipState.text !== "" && TipState.item !== null
 			color: "transparent"
-			implicitWidth: tipLabel.implicitWidth + 18
-			implicitHeight: tipLabel.implicitHeight + 12
+			implicitWidth: tipLabel.implicitWidth + (TipState.wide ? 40 : 18)
+			implicitHeight: tipLabel.implicitHeight + (TipState.wide ? 20 : 12)
 			anchor.window: win
 			anchor.item: TipState.item
 			anchor.edges: Edges.Bottom
@@ -892,7 +892,8 @@ Variants {
 					text: TipState.text
 					color: Theme.fg
 					font.family: TipState.mono ? Theme.monoFamily : Theme.fontFamily
-					font.pixelSize: 13
+					font.pixelSize: TipState.wide ? 15 : 13
+					font.kerning: !TipState.wide
 					wrapMode: Text.NoWrap
 				}
 			}

@@ -188,11 +188,13 @@ Singleton {
 		const today = date.getDate()
 		const first = new Date(year, month, 1).getDay()
 		const count = new Date(year, month + 1, 0).getDate()
-		const lines = [months[month] + " " + year, "Su Mo Tu We Th Fr Sa"]
-		let line = "   ".repeat(first)
+		// Marker plus two digits, so ">10" keeps both digits and the columns stay aligned.
+		const header = " Su  Mo  Tu  We  Th  Fr  Sa"
+		const lines = [months[month] + " " + year, header]
+		let line = "    ".repeat(first)
 		for (let day = 1; day <= count; day++) {
-			const cell = (day < 10 ? " " : "") + day
-			line += day === today ? cell.replace(/^./, ">") : cell
+			const num = (day < 10 ? " " : "") + day
+			line += (day === today ? ">" : " ") + num
 			if ((first + day) % 7 === 0 || day === count) {
 				lines.push(line)
 				line = ""
