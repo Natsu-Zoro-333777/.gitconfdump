@@ -3,9 +3,11 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import "niri-events.js" as NiriEvents
 
-// Same bar contract as the Mango singleton: monitors, tags, and clients.
-// State comes from `niri msg` instead of `mmsg`.
+// Bar contract: monitors, tags, and clients.
+// State comes from niri's event stream on $NIRI_SOCKET: full state up front,
+// then incremental updates. Actions go over a second, persistent socket.
 Singleton {
 	id: root
 
@@ -16,6 +18,8 @@ Singleton {
 
 	property var workspaces: []
 	property var windows: []
+
+	readonly property string socketPath: Quickshell.env("NIRI_SOCKET") || ""
 
 	function monitorFor(screenName) {
 		for (let i = 0; i < monitors.length; i++) {
@@ -64,42 +68,63 @@ Singleton {
 		return ""
 	}
 
-	function onOutput(output, action) {
+	// One request per line on the command socket. Without a socket, fall back to
+	// a single `niri msg action` call with the equivalent CLI arguments.
+	function send(request, cliArgs) {
+		if (commandSocket.connected) {
+			commandSocket.write(JSON.stringify(request) + "\n")
+			commandSocket.flush()
+			return
+		}
+		if (cliArgs)
+			Quickshell.execDetached(["niri", "msg", "action"].concat(cliArgs))
+	}
+
+	function onOutput(output, action, cliArgs) {
 		const out = output || root.focusedOutput()
-		let cmd = "niri msg action " + action
 		if (out)
-			cmd = "niri msg action focus-monitor " + root.shQuote(out) + " && " + cmd
-		actionProc.exec(["sh", "-c", cmd])
+			root.send({ Action: { FocusMonitor: { output: out } } }, ["focus-monitor", out])
+		root.send({ Action: action }, cliArgs)
 	}
 
 	function viewTag(index, output) {
 		const n = parseInt(index, 10)
 		if (!n)
 			return
-		root.onOutput(output, "focus-workspace " + n)
+		const out = output || root.focusedOutput()
+		for (let i = 0; i < workspaces.length; i++) {
+			const ws = workspaces[i]
+			if (ws.idx === n && (!out || ws.output === out)) {
+				root.send({ Action: { FocusWorkspace: { reference: { Id: ws.id } } } },
+					["focus-workspace", String(n)])
+				return
+			}
+		}
+		root.onOutput(out, { FocusWorkspace: { reference: { Index: n } } }, ["focus-workspace", String(n)])
 	}
 
 	function focusClient(client) {
 		const id = parseInt(client && client.id, 10)
 		if (!id)
 			return
-		actionProc.exec(["niri", "msg", "action", "focus-window", "--id", String(id)])
+		root.send({ Action: { FocusWindow: { id: id } } }, ["focus-window", "--id", String(id)])
 	}
 
 	function viewLeft(output) {
-		root.onOutput(output, "focus-workspace-up")
+		root.onOutput(output, { FocusWorkspaceUp: {} }, ["focus-workspace-up"])
 	}
 
 	function viewRight(output) {
-		root.onOutput(output, "focus-workspace-down")
+		root.onOutput(output, { FocusWorkspaceDown: {} }, ["focus-workspace-down"])
 	}
 
 	function switchLayout() {
-		actionProc.exec(["niri", "msg", "action", "toggle-overview"])
+		root.send({ Action: { ToggleOverview: {} } }, ["toggle-overview"])
 	}
 
+	// Kept for callers of the old API. State is pushed by events now.
 	function scheduleRefresh() {
-		refreshTimer.restart()
+		Qt.callLater(root.publish)
 	}
 
 	function parseList(text) {
@@ -112,143 +137,114 @@ Singleton {
 	}
 
 	function publish() {
-		const spaces = root.workspaces || []
-		const wins = root.windows || []
-		const counts = {}
-		for (let i = 0; i < wins.length; i++) {
-			const key = String(wins[i].workspace_id)
-			counts[key] = (counts[key] || 0) + 1
-		}
-
-		let focusName = ""
-		for (let i = 0; i < spaces.length; i++) {
-			if (spaces[i].is_focused && spaces[i].output) {
-				focusName = spaces[i].output
-				break
-			}
-		}
-
-		const byOutput = {}
-		const order = []
-		for (let i = 0; i < spaces.length; i++) {
-			const name = spaces[i].output || ""
-			if (!byOutput[name]) {
-				byOutput[name] = []
-				order.push(name)
-			}
-			byOutput[name].push(spaces[i])
-		}
-
-		const nextMonitors = []
-		for (let i = 0; i < order.length; i++) {
-			const name = order[i]
-			const group = byOutput[name].slice().sort(function(a, b) {
-				return (a.idx || 0) - (b.idx || 0)
-			})
-			const tags = []
-			for (let j = 0; j < group.length; j++) {
-				const ws = group[j]
-				tags.push({
-					index: ws.idx,
-					is_active: !!ws.is_active,
-					is_urgent: !!ws.is_urgent,
-					client_count: counts[String(ws.id)] || 0
-				})
-			}
-			nextMonitors.push({
-				name: name,
-				active: !!name && name === focusName,
-				tags: tags,
-				layout_symbol: "n"
-			})
-		}
-		if (nextMonitors.length === 1 && !focusName)
-			nextMonitors[0].active = true
-
-		const spaceById = {}
-		for (let i = 0; i < spaces.length; i++)
-			spaceById[String(spaces[i].id)] = spaces[i]
-
-		const nextClients = []
-		for (let i = 0; i < wins.length; i++) {
-			const win = wins[i]
-			const space = spaceById[String(win.workspace_id)]
-			nextClients.push({
-				id: win.id,
-				appid: win.app_id || "",
-				title: win.title || "",
-				pid: win.pid || 0,
-				monitor: space && space.output ? space.output : "",
-				tags: space ? [space.idx] : [],
-				is_focused: !!win.is_focused,
-				is_urgent: !!win.is_urgent,
-				is_minimized: false,
-				is_scratchpad: false,
-				is_visible: !!(space && space.is_active)
-			})
-		}
-
-		root.monitors = nextMonitors
-		root.clients = nextClients
+		const bar = NiriEvents.buildBar(root.workspaces, root.windows)
+		root.monitors = bar.monitors
+		root.clients = bar.clients
 		root.watchAlive = true
 	}
 
-	Process {
-		id: actionProc
+	function handleLine(line) {
+		const text = (line || "").trim()
+		if (!text)
+			return
+		let message
+		try {
+			message = JSON.parse(text)
+		} catch (error) {
+			console.warn("niri: bad event line:", text.slice(0, 200))
+			return
+		}
+		// The first line on the socket is the reply to "EventStream".
+		if (message && message.Ok !== undefined)
+			return
+		if (message && message.Err !== undefined) {
+			console.warn("niri: event stream error:", message.Err)
+			return
+		}
+		const next = NiriEvents.reduce({ workspaces: root.workspaces, windows: root.windows }, message)
+		if (!next.changed)
+			return
+		root.workspaces = next.workspaces
+		root.windows = next.windows
+		publishTimer.restart()
 	}
 
-	Process {
-		id: wsProc
-		command: ["niri", "msg", "--json", "workspaces"]
-		stdout: StdioCollector {
-			waitForEnd: true
-			onStreamFinished: {
-				const list = root.parseList(text)
-				if (list) {
-					root.workspaces = list
-					if (!winProc.running)
-						winProc.running = true
-				}
-			}
-		}
-		onExited: exitCode => {
-			if (exitCode !== 0)
-				retryTimer.start()
-		}
+	// Several events often arrive together (workspace + window + focus).
+	// Coalesce them into one publish.
+	Timer {
+		id: publishTimer
+		interval: 16
+		onTriggered: root.publish()
 	}
 
-	Process {
-		id: winProc
-		command: ["niri", "msg", "--json", "windows"]
-		stdout: StdioCollector {
-			waitForEnd: true
-			onStreamFinished: {
-				const list = root.parseList(text)
-				if (list) {
-					root.windows = list
-					root.publish()
-				}
-			}
-		}
-	}
-
-	Process {
-		id: watch
-		command: ["niri", "msg", "--json", "event-stream"]
-		running: true
-		stdout: SplitParser {
+	Socket {
+		id: eventSocket
+		path: root.socketPath
+		connected: root.socketPath !== ""
+		parser: SplitParser {
 			splitMarker: "\n"
-			onRead: root.scheduleRefresh()
+			onRead: data => root.handleLine(data)
 		}
-		onExited: retryTimer.start()
+		onConnectionStateChanged: {
+			if (connected) {
+				reconnectTimer.interval = 1500
+				write("\"EventStream\"\n")
+				flush()
+			} else {
+				root.watchAlive = false
+				reconnectTimer.start()
+			}
+		}
+		onError: reconnectTimer.start()
+	}
+
+	Socket {
+		id: commandSocket
+		path: root.socketPath
+		connected: root.socketPath !== ""
+		parser: SplitParser {
+			splitMarker: "\n"
+			onRead: data => {
+				if ((data || "").indexOf("\"Err\"") !== -1)
+					console.warn("niri action failed:", data)
+			}
+		}
+		onConnectionStateChanged: {
+			if (!connected)
+				reconnectTimer.start()
+		}
+		onError: reconnectTimer.start()
 	}
 
 	Timer {
-		id: refreshTimer
-		interval: 40
+		id: reconnectTimer
+		interval: 1500
 		onTriggered: {
-			if (!wsProc.running)
-				wsProc.running = true
+			if (root.socketPath === "")
+				return
+			if (!eventSocket.connected)
+				eventSocket.connected = true
+			if (!commandSocket.connected)
+				commandSocket.connected = true
+			// Back off to 30 s while niri is unreachable.
+			interval = Math.min(30000, interval * 2)
+		}
+	}
+
+	// Fallback when $NIRI_SOCKET is unset: one long-lived event-stream process.
+	// It prints the same JSON events, one per line, without the Ok reply.
+	Process {
+		id: watch
+		command: ["niri", "msg", "--json", "event-stream"]
+		running: root.socketPath === ""
+		stdout: SplitParser {
+			splitMarker: "\n"
+			onRead: data => root.handleLine(data)
+		}
+		onExited: {
+			root.watchAlive = false
+			if (root.socketPath === "")
+				retryTimer.start()
 		}
 	}
 
@@ -258,9 +254,6 @@ Singleton {
 		onTriggered: {
 			if (!watch.running)
 				watch.running = true
-			root.scheduleRefresh()
 		}
 	}
-
-	Component.onCompleted: root.scheduleRefresh()
 }

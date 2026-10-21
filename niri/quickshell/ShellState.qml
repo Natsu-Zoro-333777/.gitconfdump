@@ -10,6 +10,8 @@ Singleton {
 	property string launcherMonitor: ""
 	property bool clipboardOpen: false
 	property bool centerOpen: false
+	// Screen the control center opens on. Empty means the focused niri output.
+	property string centerMonitor: ""
 	property string centerPage: "main"
 	property string wifiTarget: ""
 	property bool mullvadOn: false
@@ -19,6 +21,7 @@ Singleton {
 		launcherMonitor = ""
 		clipboardOpen = false
 		centerOpen = false
+		centerMonitor = ""
 		centerPage = "main"
 		wifiTarget = ""
 	}
@@ -38,18 +41,20 @@ Singleton {
 		clipboardOpen = open
 	}
 
-	function toggleCenter() {
+	function toggleCenter(monitor) {
 		const open = !centerOpen
 		closeTransient()
 		centerPage = "main"
+		centerMonitor = open ? (monitor || "") : ""
 		centerOpen = open
 	}
 
-	function openCenter(page) {
+	function openCenter(page, monitor) {
 		launcherOpen = false
 		clipboardOpen = false
 		centerPage = page || "main"
 		wifiTarget = ""
+		centerMonitor = monitor || ""
 		centerOpen = true
 	}
 

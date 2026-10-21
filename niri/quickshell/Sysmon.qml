@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import "procparse.js" as ProcParse
 // Laptop battery service. Inactive on this desktop, which has no battery.
 // import Quickshell.Services.UPower
 
@@ -323,13 +324,38 @@ Singleton {
 		return { usage: usage, idle: idle, total: total }
 	}
 
-	function applySample(text) {
-		let data
-		try {
-			data = JSON.parse(text)
-		} catch (error) {
+	// Number of procfs reads still outstanding for the current sample.
+	property int _pending: 0
+	property double _sampleStarted: 0
+
+	function sampleNow() {
+		// A read normally lands in well under a second; give up on a stuck one after 10 s.
+		if (root._pending > 0 && Date.now() - root._sampleStarted < 10000)
 			return
-		}
+		root._sampleStarted = Date.now()
+		root._pending = procFiles.length
+		for (let i = 0; i < procFiles.length; i++)
+			procFiles[i].reload()
+	}
+
+	function fileDone() {
+		// Ignore the initial preload; samples start from the timer.
+		if (root._pending <= 0)
+			return
+		root._pending = Math.max(0, root._pending - 1)
+		if (root._pending > 0)
+			return
+		root.applySample(ProcParse.sample(
+			statFile.loaded ? statFile.text() : "",
+			memFile.loaded ? memFile.text() : "",
+			freqFile.loaded ? freqFile.text() : "",
+			routeFile.loaded ? routeFile.text() : "",
+			netFile.loaded ? netFile.text() : ""))
+	}
+
+	function applySample(data) {
+		if (!data)
+			return
 		const parts = data.cpu || []
 		const agg = root.usageOf(parts, root._idle, root._total)
 		if (agg.usage >= 0)
@@ -370,10 +396,7 @@ Singleton {
 		running: true
 		repeat: true
 		triggeredOnStart: true
-		onTriggered: {
-			if (!sampleProc.running)
-				sampleProc.running = true
-		}
+		onTriggered: root.sampleNow()
 	}
 
 	Timer {
@@ -439,13 +462,49 @@ Singleton {
 	}
 	*/
 
-	Process {
-		id: sampleProc
-		command: ["python3", "-c", "import json\nlines=open('/proc/stat').read().splitlines()\ndef nums(line):\n return list(map(int, line.split()[1:]))\nagg=nums(lines[0])\ncores=[]\nfor line in lines[1:]:\n if line.startswith('cpu') and len(line)>3 and line[3].isdigit():\n  cores.append(nums(line))\n else:\n  break\nmem={}\nfor line in open('/proc/meminfo'):\n k,v=line.split(':',1); mem[k]=int(v.strip().split()[0])\nfreq=0\ntry:\n freq=int(open('/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq').read())\nexcept Exception:\n pass\nnet={}\nroute=''\ntry:\n for line in open('/proc/net/route'):\n  p=line.split()\n  if len(p)>1 and p[1]=='00000000' and p[0]!='Iface':\n   route=p[0]; break\nexcept Exception:\n pass\nfor line in open('/proc/net/dev'):\n if ':' not in line: continue\n name,rest=line.split(':',1)\n name=name.strip()\n if name=='lo': continue\n cols=rest.split()\n if len(cols)<9: continue\n net[name]={'rx':int(cols[0]),'tx':int(cols[8])}\nprint(json.dumps({'cpu':agg,'cores':cores,'mem':mem,'freq':freq,'net':net,'route':route}))"]
-		stdout: StdioCollector {
-			waitForEnd: true
-			onStreamFinished: root.applySample(text)
-		}
+	// procfs sources for CPU, memory and network. FileView reads files that
+	// report size 0 (like /proc) to EOF. Each sample reloads all of them and
+	// parses once the last one has landed.
+	readonly property list<FileView> procFiles: [statFile, memFile, freqFile, routeFile, netFile]
+
+	FileView {
+		id: statFile
+		path: "/proc/stat"
+		printErrors: false
+		onLoaded: root.fileDone()
+		onLoadFailed: root.fileDone()
+	}
+
+	FileView {
+		id: memFile
+		path: "/proc/meminfo"
+		printErrors: false
+		onLoaded: root.fileDone()
+		onLoadFailed: root.fileDone()
+	}
+
+	FileView {
+		id: freqFile
+		path: "/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
+		printErrors: false
+		onLoaded: root.fileDone()
+		onLoadFailed: root.fileDone()
+	}
+
+	FileView {
+		id: routeFile
+		path: "/proc/net/route"
+		printErrors: false
+		onLoaded: root.fileDone()
+		onLoadFailed: root.fileDone()
+	}
+
+	FileView {
+		id: netFile
+		path: "/proc/net/dev"
+		printErrors: false
+		onLoaded: root.fileDone()
+		onLoadFailed: root.fileDone()
 	}
 
 	Process {

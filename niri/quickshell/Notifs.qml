@@ -88,19 +88,6 @@ Singleton {
 		return null
 	}
 
-	function actionSnapshots(id) {
-		const notification = find(id)
-		const src = notification && notification.actions ? notification.actions : []
-		const actions = []
-		for (let i = 0; i < src.length; i++) {
-			actions.push({
-				identifier: src[i].identifier,
-				text: src[i].text
-			})
-		}
-		return actions
-	}
-
 	function history() {
 		const values = server.trackedNotifications.values
 		const copy = []
@@ -115,10 +102,6 @@ Singleton {
 			return Number(b.id) - Number(a.id)
 		})
 		return copy
-	}
-
-	function visiblePopups() {
-		return popups
 	}
 
 	property var pendingDismiss: []
@@ -137,19 +120,6 @@ Singleton {
 			hist.push(id)
 			pendingHistory = hist
 		}
-		historyDismiss.restart()
-	}
-
-	function clearAll() {
-		const values = server.trackedNotifications.values
-		const queued = pendingDismiss.slice()
-		const hist = pendingHistory.slice()
-		for (let i = 0; i < values.length; i++) {
-			queued.push(values[i].id)
-			hist.push(values[i].id)
-		}
-		pendingDismiss = queued
-		pendingHistory = hist
 		historyDismiss.restart()
 	}
 
@@ -256,8 +226,43 @@ Singleton {
 		noteOrigin(data.app || "", data.summary || "", data.body || "", data.pids)
 	}
 
+	// Keep only entries whose notification (or window) still exists.
+	function keepKeys(map, alive) {
+		const keys = Object.keys(map)
+		let dropped = false
+		const next = {}
+		for (let i = 0; i < keys.length; i++) {
+			if (alive[keys[i]])
+				next[keys[i]] = map[keys[i]]
+			else
+				dropped = true
+		}
+		return dropped ? next : map
+	}
+
+	function pruneNotes() {
+		const values = server.trackedNotifications.values
+		const alive = {}
+		for (let i = 0; i < values.length; i++)
+			alive[values[i].id] = true
+		// Popups hold copies; keep their timestamps until they leave the screen.
+		for (let i = 0; i < popups.length; i++)
+			alive[popups[i].id] = true
+		received = keepKeys(received, alive)
+		origins = keepKeys(origins, alive)
+		originClient = keepKeys(originClient, alive)
+	}
+
+	function pruneFocus(clients) {
+		const alive = {}
+		for (let i = 0; i < clients.length; i++)
+			alive[clients[i].id] = true
+		focusedAt = keepKeys(focusedAt, alive)
+	}
+
 	function noteFocus() {
 		const clients = Niri.clients || []
+		root.pruneFocus(clients)
 		for (let i = 0; i < clients.length; i++) {
 			const client = clients[i]
 			if (!client.is_focused)
@@ -578,6 +583,19 @@ Singleton {
 		function onClientsChanged() {
 			root.noteFocus()
 		}
+	}
+
+	Connections {
+		target: server.trackedNotifications
+		function onValuesChanged() {
+			pruneTimer.restart()
+		}
+	}
+
+	Timer {
+		id: pruneTimer
+		interval: 2000
+		onTriggered: root.pruneNotes()
 	}
 
 	Component.onCompleted: root.noteFocus()

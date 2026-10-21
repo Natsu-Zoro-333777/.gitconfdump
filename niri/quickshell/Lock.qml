@@ -256,9 +256,10 @@ Scope {
 
 		onLockedChanged: root.noteLockState()
 
+		// Only needed while a lock is up or being torn down.
 		Timer {
 			interval: 1000
-			running: true
+			running: sessionLock.locked || root.sawLocked
 			repeat: true
 			onTriggered: root.noteLockState()
 		}

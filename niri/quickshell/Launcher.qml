@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import "usage-rank.js" as UsageRank
 
 // An exclusive overlay gets the keyboard. The layer stays mapped and fades
 // in place, so closing it does not leave a ghost of the menu.
@@ -62,6 +63,7 @@ PanelWindow {
 	function buildCatalog() {
 		void rev
 		void ShellState.launcherOpen
+		void AppUsage.apps
 		const specs = menuSpecs()
 		const apps = DesktopEntries.applications.values
 		const items = []
@@ -103,8 +105,8 @@ PanelWindow {
 				keywords: keywords
 			})
 		}
-		items.sort((a, b) => a.title.localeCompare(b.title))
-		return items
+		// Most-used apps first (frequency with recency decay), the rest alphabetical.
+		return UsageRank.rank(items, id => AppUsage.score(id), AppUsage.promoteLimit)
 	}
 
 	function buildCategories() {

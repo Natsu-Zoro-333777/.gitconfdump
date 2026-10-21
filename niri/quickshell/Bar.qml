@@ -24,6 +24,16 @@ Variants {
 		property int shownTasks: taskCount()
 		property int desktopRev: 0
 		property var trayHoverItem: null
+		// The shared tooltip belongs to this bar only if its target item lives here.
+		readonly property bool ownsTip: {
+			let item = TipState.item
+			while (item) {
+				if (item === barBox)
+					return true
+				item = item.parent
+			}
+			return false
+		}
 
 		Connections {
 			target: DesktopEntries
@@ -227,7 +237,7 @@ Variants {
 									width: 34
 									height: 32
 									radius: 0
-									color: modelData.is_active ? Theme.orange : "transparent"
+									color: modelData.is_active || tagMouse.containsMouse ? Theme.orange : "transparent"
 
 									Text {
 										anchors.centerIn: parent
@@ -246,12 +256,11 @@ Variants {
 									}
 
 									MouseArea {
+										id: tagMouse
 										anchors.fill: parent
 										hoverEnabled: true
 										onClicked: Niri.viewTag(modelData.index, win.modelData.name)
 										onWheel: event => event.angleDelta.y > 0 ? Niri.viewLeft(win.modelData.name) : Niri.viewRight(win.modelData.name)
-										onEntered: parent.color = Theme.orange
-										onExited: parent.color = modelData.is_active ? Theme.orange : "transparent"
 									}
 								}
 							}
@@ -444,7 +453,7 @@ Variants {
 								if (event.button === Qt.RightButton)
 									Notifs.dnd = !Notifs.dnd
 								else
-									ShellState.toggleCenter()
+									ShellState.toggleCenter(win.modelData.name)
 							}
 							onContainsMouseChanged: {
 								if (containsMouse)
@@ -640,7 +649,7 @@ Variants {
 								if (event.button === Qt.RightButton)
 									Networking.wifiEnabled = !Networking.wifiEnabled
 								else
-									ShellState.openCenter("wifi")
+									ShellState.openCenter("wifi", win.modelData.name)
 							}
 							onContainsMouseChanged: {
 								if (containsMouse)
@@ -828,7 +837,7 @@ Variants {
 								if (event.button === Qt.RightButton)
 									Sysmon.refreshWeather(true)
 								else
-									Quickshell.execDetached(["xdg-open", "https://wttr.in/" + Sysmon.weatherLocation])
+									Quickshell.execDetached(["xdg-open", "https://wttr.in/" + encodeURIComponent(Sysmon.weatherLocation)])
 							}
 							onContainsMouseChanged: {
 								if (containsMouse)
@@ -869,12 +878,12 @@ Variants {
 
 		PopupWindow {
 			id: tipWindow
-			visible: TipState.text !== "" && TipState.item !== null
+			visible: TipState.text !== "" && TipState.item !== null && win.ownsTip
 			color: "transparent"
 			implicitWidth: tipLabel.implicitWidth + (TipState.wide ? 40 : 18)
 			implicitHeight: tipLabel.implicitHeight + (TipState.wide ? 20 : 12)
 			anchor.window: win
-			anchor.item: TipState.item
+			anchor.item: win.ownsTip ? TipState.item : null
 			anchor.edges: Edges.Bottom
 			anchor.gravity: Edges.Bottom
 			anchor.margins.top: 6

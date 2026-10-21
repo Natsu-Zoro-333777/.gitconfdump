@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 
 // One source. A single notification is a normal card. Two or more draw a
-// collapsed deck; the click focuses that source and the center expands it.
+// collapsed deck. The face opens the newest note and jumps to its window.
+// The count badge expands the stack.
 Item {
 	id: root
 
@@ -114,11 +115,12 @@ Item {
 				}
 
 				Rectangle {
+					id: countBadge
 					Layout.preferredWidth: Math.max(28, countText.implicitWidth + 12)
 					Layout.preferredHeight: 28
 					Layout.alignment: Qt.AlignTop
 					radius: 0
-					color: Theme.orange
+					color: countMouse.containsMouse ? Theme.yellow : Theme.orange
 
 					Text {
 						id: countText
@@ -129,16 +131,29 @@ Item {
 						font.pixelSize: 14
 						font.bold: true
 					}
+
+					MouseArea {
+						id: countMouse
+						anchors.fill: parent
+						hoverEnabled: true
+						cursorShape: Qt.PointingHandCursor
+						preventStealing: true
+						onClicked: root.focusRequested()
+					}
 				}
 			}
 
 			MouseArea {
 				id: faceMouse
 				anchors.fill: parent
+				anchors.rightMargin: countBadge.width + faceRow.anchors.margins
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
 				preventStealing: true
-				onClicked: root.focusRequested()
+				onClicked: {
+					if (root.newest)
+						Notifs.openId(Number(root.newest.id))
+				}
 			}
 		}
 

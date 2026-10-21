@@ -165,22 +165,6 @@ Singleton {
 		return Math.round(strength) + "%"
 	}
 
-	function securityText(net) {
-		if (!net)
-			return ""
-		const label = WifiSecurityType.toString(net.security)
-		if (label === "Open" || label === "Owe" || label === "Unknown")
-			return label === "Unknown" ? "" : "open"
-		return label
-	}
-
-	function needsPassword(net) {
-		if (!net || net.known || net.connected)
-			return false
-		const label = WifiSecurityType.toString(net.security)
-		return label !== "Open" && label !== "Owe"
-	}
-
 	function calendar(date) {
 		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 		const year = date.getFullYear()

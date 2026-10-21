@@ -6,13 +6,32 @@ This watches Notify calls and writes one JSON object per line:
 {"app", "summary", "body", "pids"}.
 """
 
+import ctypes
 import json
+import os
 import re
+import signal
 import subprocess
 import sys
 
 PID_RE = re.compile(r"(?:int16|int32|int64|uint16|uint32|uint64|byte)\s+(\d+)")
 SENDER_RE = re.compile(r"sender=(:\d+\.\d+)")
+
+
+PR_SET_PDEATHSIG = 1
+
+
+def die_with_parent():
+	"""Ask the kernel to SIGTERM this process when its parent exits.
+
+	Without this, killing quickshell left the helper and its dbus-monitor
+	running, and every restart added another pair.
+	"""
+	try:
+		libc = ctypes.CDLL(None, use_errno=True)
+		libc.prctl(PR_SET_PDEATHSIG, signal.SIGTERM)
+	except (OSError, AttributeError):
+		pass
 
 
 def dbus_strings(text):
@@ -130,11 +149,19 @@ def describe(block):
 def emit(info):
 	if not info or not info.get("pids"):
 		return
-	sys.stdout.write(json.dumps(info, ensure_ascii=False) + "\n")
-	sys.stdout.flush()
+	try:
+		sys.stdout.write(json.dumps(info, ensure_ascii=False) + "\n")
+		sys.stdout.flush()
+	except BrokenPipeError:
+		# The shell went away.
+		raise SystemExit(0)
 
 
 def main():
+	parent = os.getppid()
+	die_with_parent()
+	if os.getppid() != parent:
+		return 0  # parent already gone before the death signal was armed
 	proc = subprocess.Popen(
 		[
 			"dbus-monitor", "--session",
@@ -144,6 +171,7 @@ def main():
 		stderr=subprocess.DEVNULL,
 		text=True,
 		bufsize=1,
+		preexec_fn=die_with_parent,
 	)
 	block = []
 	try:

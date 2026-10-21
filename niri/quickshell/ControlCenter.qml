@@ -284,17 +284,58 @@ PopupWindow {
 			Quickshell.execDetached(["nmcli", "device", "wifi", "connect", net.name])
 	}
 
+	function nativeNetwork(name) {
+		const device = Theme.wifiDevice()
+		if (!device || !device.networks)
+			return null
+		const nets = device.networks.values
+		for (let i = 0; i < nets.length; i++) {
+			if (nets[i].name === name)
+				return nets[i]
+		}
+		return null
+	}
+
+	// The password never goes on a command line (it would be readable in
+	// /proc/<pid>/cmdline). Prefer Quickshell's NetworkManager backend; fall
+	// back to nmcli reading the secret from stdin.
 	function submitPassword() {
 		if (!ShellState.wifiTarget || !password.text)
 			return
-		Quickshell.execDetached(["nmcli", "device", "wifi", "connect", ShellState.wifiTarget, "password", password.text])
+		const ssid = ShellState.wifiTarget
+		const psk = password.text
 		password.text = ""
 		ShellState.wifiTarget = ""
+		const net = nativeNetwork(ssid)
+		if (net && (net.security === WifiSecurityType.WpaPsk
+				|| net.security === WifiSecurityType.Wpa2Psk
+				|| net.security === WifiSecurityType.Sae)) {
+			net.connectWithPsk(psk)
+			return
+		}
+		if (pskProc.running)
+			return
+		pskProc.secret = psk
+		pskProc.exec(["nmcli", "--ask", "device", "wifi", "connect", ssid])
 	}
 
 	function refreshMullvad() {
-		if (!mullvadProc.running)
-			mullvadProc.running = true
+		Mullvad.refresh()
+	}
+
+	// Several bars each own a control center; only the one on the target
+	// screen opens. No target means the focused niri output.
+	function ownsOpen() {
+		if (!anchorWindow || !anchorWindow.screen)
+			return false
+		const name = anchorWindow.screen.name
+		if (ShellState.centerMonitor)
+			return ShellState.centerMonitor === name
+		const focused = Niri.focusedOutput()
+		if (focused)
+			return focused === name
+		const screens = Quickshell.screens
+		return screens.length === 0 || screens[0].name === name
 	}
 
 	// Stay this size while open. Resizing the popup on Clear All left it
@@ -302,7 +343,7 @@ PopupWindow {
 	implicitWidth: 400
 	implicitHeight: 560
 	color: "transparent"
-	visible: ShellState.centerOpen && anchorItem !== null
+	visible: ShellState.centerOpen && anchorItem !== null && ownsOpen()
 	grabFocus: true
 	anchor.window: anchorWindow
 	anchor.item: anchorItem
@@ -314,7 +355,9 @@ PopupWindow {
 	onVisibleChanged: {
 		if (!visible) {
 			leaveFocus()
-			if (ShellState.centerOpen)
+			// Only a dismissal of this screen's popup closes the center. A popup
+			// hidden because the center moved to another screen leaves it open.
+			if (ShellState.centerOpen && ownsOpen())
 				ShellState.centerOpen = false
 			return
 		}
@@ -830,11 +873,8 @@ PopupWindow {
 				}
 				ActionButton {
 					Layout.fillWidth: true
-					label: ShellState.mullvadOn ? "󰖂  Mullvad disconnect" : "󰖂  Mullvad connect"
-					onTriggered: {
-						Quickshell.execDetached(["mullvad", ShellState.mullvadOn ? "disconnect" : "connect"])
-						retryMullvad.start()
-					}
+					label: Mullvad.on ? "󰖂  Mullvad disconnect" : "󰖂  Mullvad connect"
+					onTriggered: Mullvad.toggle()
 				}
 				ActionButton {
 					Layout.fillWidth: true
@@ -977,21 +1017,22 @@ PopupWindow {
 	}
 
 	Process {
-		id: mullvadProc
-		command: ["mullvad", "status"]
-		stdout: StdioCollector {
+		id: pskProc
+		property string secret: ""
+		stdinEnabled: true
+		onStarted: {
+			pskProc.write(pskProc.secret + "\n")
+			pskProc.secret = ""
+		}
+		onExited: secret = ""
+		stderr: StdioCollector {
 			waitForEnd: true
 			onStreamFinished: {
-				const value = text.toLowerCase()
-				ShellState.mullvadOn = value.indexOf("disconnected") === -1 && value.indexOf("connected") !== -1
+				const err = text.trim()
+				if (err)
+					console.warn("wifi connect:", err)
 			}
 		}
-	}
-
-	Timer {
-		id: retryMullvad
-		interval: 1500
-		onTriggered: win.refreshMullvad()
 	}
 
 	component Vol: Rectangle {
