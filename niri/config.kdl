@@ -109,7 +109,7 @@ output "DP-3" {
 }
 
 cursor{
-  xcursor-theme "SmugAlana-Fire"
+  xcursor-theme "SmugAlana-Fusion"
   xcursor-size 36
 
 }
@@ -120,6 +120,8 @@ environment {
   QT_QPA_PLATFORMTHEME_QT6 "qt6ct"
   EDITOR "kwrite"
   VISUAL "kwrite"
+  XCURSOR_THEME "SmugAlana-Fusion"
+  XCURSOR_SIZE "36"
 }
   
 
@@ -345,7 +347,7 @@ window-rule {
     // This app-id regular expression will work for both:
     // - host Firefox (app-id is "firefox")
     // - Flatpak Firefox (app-id is "org.mozilla.firefox")
-    match app-id=r#"librewolf$"# title="^Picture-in-Picture$"
+    match app-id=r#"brave$"# title="^Picture-in-Picture$"
     open-floating true
 }
 
@@ -382,13 +384,7 @@ window-rule {
   open-floating true
 }
 window-rule {
-  match app-id="librewolf"
-  //match at-startup=true
-  open-maximized true
-}
-
-window-rule {
-  match app-id="chromium"
+  match app-id="brave"
   //match at-startup=true
   open-maximized true
 }
